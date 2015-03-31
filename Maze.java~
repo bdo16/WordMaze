@@ -48,8 +48,11 @@ public class Maze{
         System.out.println("Hint: The obstacles change in a pattern.");    
         System.out.println("***");
       }
-      if(count % 8 == 0)
+      if(count % 8 == 0){
+        System.out.println("***");
         System.out.println("Are you feeling at your...prime?");
+        System.out.println("***");
+      }
       if(isPrime(count))
         primeMap();
       else
@@ -201,12 +204,17 @@ public class Maze{
    }
    
    private void nextLevel() {
+     Hangman() hangman = new Hangman();
+     while(!hangman.over)
+       hangman.start();
      level++;
      count = 1;
      setMap();
+     System.out.println("***");
      if(level <= maxlevel)
        System.out.println("Moving on to the next level.");
      if(level == 2)
        System.out.println("Are you at your...prime?");
+     System.out.println("***");
    }
 }
