@@ -204,9 +204,9 @@ public class Maze{
    }
    
    private void nextLevel() {
-     Hangman() hangman = new Hangman();
-     while(!hangman.over)
-       hangman.start();
+ //    Hangman() hangman = new Hangman();
+   //  while(!hangman.over)
+  //     hangman.start();
      level++;
      count = 1;
      setMap();
