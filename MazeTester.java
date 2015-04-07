@@ -25,6 +25,7 @@ public class MazeTester{
      while(!game.over) {
        String input = in.nextLine();
        game.action(input);
+       System.out.println("Press enter to continue.");
      }
    }
 }

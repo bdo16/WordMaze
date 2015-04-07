@@ -1,19 +1,21 @@
 import java.util.*;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
 public class Hangman{
   Scanner input = new Scanner (System.in);
   public boolean over = false;
   private int lengthofword = 0;
-  private int guessesleft = 6;
+  private int guessesleft = 9;
   private int[] letterfrequency = new int[26];
   private boolean[] lettersguessed = new boolean[26]; //false if not guessed, true if guessed
+  private ArrayList<String> wrongletters = new ArrayList<String>();
   private String[] wordguess;
   private ArrayList<String> words = new ArrayList<String>();
   private int counter = 0; // number of words in ArrayList words
   
   public void start() {
-    guessesleft = 6;
+    guessesleft = 9;
     Arrays.fill(letterfrequency, 0); //sets all the values of letterfrequency to 0
     Arrays.fill(lettersguessed, false); //sets all the values of letterfrequency to 0
     System.out.println("In order to pass, you must beat me in a game of Hangman.");
@@ -30,6 +32,7 @@ public class Hangman{
     if(check())
       endGame();
     else if(guessesleft > 0) {
+      refreshWordList();
       refreshLetterFrequency();
       String chosenletter = letterToGuess();
       System.out.println("Is the letter '" + chosenletter + "' in your word?");
@@ -48,7 +51,10 @@ public class Hangman{
           positionofletter = input.nextInt();
         }
       }
-      guessesleft--;
+      else {
+        wrongletters.add(chosenletter);
+        guessesleft--;
+      }
       print();//prints the information
       guess();//guesses again
     }
@@ -87,6 +93,35 @@ public class Hangman{
       }
     }
     System.out.println("");
+  }
+  
+  public void refreshWordList() {
+    for (int i = words.size() - 1; i >= 0; i--){
+      if(hasincorrectletter(words.get(i)))
+        words.remove(i);
+      else if(lettersdonotmatch(words.get(i)))
+        words.remove(i);
+    }
+  }
+  
+  public boolean hasincorrectletter(String word){
+    for(int j = 0; j < wrongletters.size(); j++){
+      for(int k = 0; k < word.length(); k++){ //letters
+        if(word.substring(k,k+1).equals(wrongletters.get(j)))
+          return true;
+      }
+    }
+    return false;
+  }
+  
+  public boolean lettersdonotmatch(String word){
+    for(int i = 0; i < wordguess.length; i++){
+      if(!wordguess[i].equals("")){
+        if(!wordguess[i].equals(word.substring(i,i+1)))
+          return true;
+      }
+    }
+    return false;
   }
   
   public void refreshLetterFrequency() {
@@ -151,7 +186,7 @@ public class Hangman{
     int highestindex = 0;
     while(lettersguessed[highestindex]) //checks to see if the starting letter has been guessed
       highestindex++; //so the for loop starts with an unguessed letter
-    for(int i = highestindex; i < letterfrequency.length; i++){
+    for(int i = highestindex + 1; i < letterfrequency.length; i++){
       if(!lettersguessed[i]){ //if the letter has not been guessed yet
         if(letterfrequency[i] > letterfrequency[highestindex])
           highestindex = i;
@@ -166,7 +201,7 @@ public class Hangman{
   
   public int letterToIndex(String s) {
     char temp = s.charAt(0);
-    return Character.getNumericValue(temp-49);
+    return temp - 'a';
   }
   
   public void endGame() {
@@ -184,8 +219,8 @@ public class Hangman{
   { // loads in contents of words into new ArrayList
     try
     {
-      //Scanner in = new Scanner(new File("words.txt"));
-      Scanner in = new Scanner(new File("~/Documents/words.txt"));
+      Scanner in = new Scanner(new File("words.txt"));
+      //  Scanner in = new Scanner(new File("~/Documents/words.txt"));
       while(in.hasNext())
       { 
         words.add(in.next());
@@ -200,8 +235,8 @@ public class Hangman{
     {
       System.out.println("Error: " + i.getMessage());
     }
-    System.out.println(counter + " words loaded in.");
-    System.out.println("Size of ArrayList: " + words.size());
+    //System.out.println(counter + " words loaded in.");
+    //System.out.println("Size of ArrayList: " + words.size());
   }
   
   
