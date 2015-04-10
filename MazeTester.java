@@ -8,10 +8,12 @@ public class MazeTester{
      Maze maze = new Maze();
      maze.setMap();
      maze.printMap();
-     System.out.println("Instructions: You are @, and your goal is to get to the X.");
+     System.out.println("You are entering the Hangman Maze.");
+     System.out.println("You are @, and your goal is to get to the X.");
+     System.out.println("The 0 are rocks that you cannot pass through.");
      System.out.println("Type one letter (wasd) and press enter to move.");
      System.out.println("w = up, a = left, s = down, d = right");
-     System.out.println("You will KEEP ON MOVING straight until you hit 0");
+     System.out.println("You will KEEP ON MOVING straight until you hit 0 or reach X.");
      while(maze.level < 3) {
          System.out.println("Level: " + maze.level);
          System.out.println("Turn: " + maze.count);

@@ -43,13 +43,14 @@ public class Maze{
       starterMap();
     }
     if (level == 2) {
-      if(count == 3 || count % 6 == 0) {
+      if(count == 0 || count == 3 || count % 6 == 0) {
         System.out.println("***");
         System.out.println("Hint: The obstacles change in a pattern.");    
         System.out.println("***");
       }
       if(count % 8 == 0){
         System.out.println("***");
+        System.out.println("VERY IMPORTANT HINT!!!");
         System.out.println("Are you feeling at your...prime?");
         System.out.println("***");
       }
@@ -205,8 +206,7 @@ public class Maze{
   
   private void nextLevel() {
     Hangman hangman = new Hangman();
-    while(!hangman.over)
-      hangman.start();
+    hangman.start();
     level++;
     count = 1;
     setMap();

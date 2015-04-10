@@ -4,18 +4,18 @@ import java.io.IOException;
 
 public class Hangman{
   Scanner input = new Scanner (System.in);
-  public boolean over = false;
-  private int lengthofword = 0;
-  private int guessesleft = 9;
+  private int lengthofword;
+  private int guessesleft;
   private int[] letterfrequency = new int[26];
   private boolean[] lettersguessed = new boolean[26]; //false if not guessed, true if guessed
   private ArrayList<String> wrongletters = new ArrayList<String>();
   private String[] wordguess;
   private ArrayList<String> words = new ArrayList<String>();
-  private int counter = 0; // number of words in ArrayList words
   
   public void start() {
     guessesleft = 9;
+    wrongletters.clear();
+    words.clear();
     Arrays.fill(letterfrequency, 0); //sets all the values of letterfrequency to 0
     Arrays.fill(lettersguessed, false); //sets all the values of letterfrequency to 0
     System.out.println("In order to pass, you must beat me in a game of Hangman.");
@@ -44,7 +44,8 @@ public class Hangman{
       lettersguessed[letterToIndex(chosenletter)] = true;
       if(response.equals("y")){
         System.out.println("What position is the letter in?");
-        System.out.println("Type one number at a time, \"1\" for the first position. Type \"0\" once finished.");
+        System.out.println("Type one number at a time, \"1\" for the first letter in the word.");
+        System.out.println("Type \"0\" once finished.");
         int positionofletter = input.nextInt();
         while (positionofletter != 0){
           wordguess[positionofletter-1] = chosenletter;
@@ -211,7 +212,6 @@ public class Hangman{
     }
     else{
       System.out.println("You win! You can move on.");
-      over = true;
     }
   }
   
@@ -224,10 +224,8 @@ public class Hangman{
       while(in.hasNext())
       { 
         words.add(in.next());
-        counter++;
         if(!(words.get(words.size()-1).length() == lengthofword)){
           words.remove(words.size()-1);
-          counter--;
         }
       }
     }
