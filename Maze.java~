@@ -1,11 +1,11 @@
 public class Maze{
   
-  public int level = 1;
-  private int maxlevel = 2;
-  public int count = 1;
-  private int playerRow = 0;
+  public int level = 1;//the current level
+  public int maxlevel = 2;//the highest level
+  public int count = 1;//the turn number
+  private int playerRow = 0;//position of the player
   private int playerCol = 0;
-  private int goalRow = 0;
+  private int goalRow = 0;//position of the goal
   private int goalCol = 0;
   private String[][] map = new String[][]{{"-","-","-","-","-","-","-","-","-","-"},
     {"-","-","-","-","-","-","-","-","-","-"},
@@ -18,7 +18,7 @@ public class Maze{
     {"-","-","-","-","-","-","-","-","-","-"},
     {"-","-","-","-","-","-","-","-","-","-"}};
   
-  public void setMap() {
+  public void setMap() {//sets the map for each level
     if (level == 1) {
       playerRow = 0;
       playerCol = 5;
@@ -32,24 +32,25 @@ public class Maze{
       goalRow = 8;
       goalCol = 8;
       if(isPrime(count))
-        primeMap();
+        primeMap(); //uses the prime map for prime number turns
       else
         notPrimeMap();
     }
   }
   
-  public void refreshMap() {
+  public void refreshMap() {//prints the maze again
     if (level == 1) {
       starterMap();
     }
     if (level == 2) {
-      if(count == 3 || count % 6 == 0) {
+      if(count == 0 || count == 3 || count % 6 == 0) {
         System.out.println("***");
         System.out.println("Hint: The obstacles change in a pattern.");    
         System.out.println("***");
       }
       if(count % 8 == 0){
         System.out.println("***");
+        System.out.println("VERY IMPORTANT HINT!!!");
         System.out.println("Are you feeling at your...prime?");
         System.out.println("***");
       }
@@ -104,7 +105,7 @@ public class Maze{
     map[6][7] = "0";
   }
   
-  public void printMap() {
+  public void printMap() { //prints the maze
     System.out.println("0 0 0 0 0 0 0 0 0 0 0 0");
     for (int row = 0; row < map.length; row++) {
       System.out.print("0 ");
@@ -205,8 +206,7 @@ public class Maze{
   
   private void nextLevel() {
     Hangman hangman = new Hangman();
-    while(!hangman.over)
-      hangman.start();
+    hangman.start();
     level++;
     count = 1;
     setMap();

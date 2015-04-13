@@ -1,13 +1,13 @@
 public class Maze{
   
-  public int level = 1;
-  private int maxlevel = 2;
-  public int count = 1;
-  private int playerRow = 0;
+  public int level = 1;//the current level
+  public int maxlevel = 2;//the highest level
+  public int count = 1;//the turn number
+  private int playerRow = 0;//position of the player
   private int playerCol = 0;
-  private int goalRow = 0;
+  private int goalRow = 0;//position of the goal
   private int goalCol = 0;
-  private String[][] map = new String[][]{{"-","-","-","-","-","-","-","-","-","-"},
+  private String[][] map = new String[][]{{"-","-","-","-","-","-","-","-","-","-"}, //the maze
     {"-","-","-","-","-","-","-","-","-","-"},
     {"-","-","-","-","-","-","-","-","-","-"},
     {"-","-","-","-","-","-","-","-","-","-"},
@@ -18,7 +18,7 @@ public class Maze{
     {"-","-","-","-","-","-","-","-","-","-"},
     {"-","-","-","-","-","-","-","-","-","-"}};
   
-  public void setMap() {
+  public void setMap() {//sets the map for each level
     if (level == 1) {
       playerRow = 0;
       playerCol = 5;
@@ -32,13 +32,13 @@ public class Maze{
       goalRow = 8;
       goalCol = 8;
       if(isPrime(count))
-        primeMap();
+        primeMap(); //uses the prime map for prime number turns
       else
         notPrimeMap();
     }
   }
   
-  public void refreshMap() {
+  public void refreshMap() {//prints the maze again
     if (level == 1) {
       starterMap();
     }
@@ -61,7 +61,7 @@ public class Maze{
     }
   }
   
-  public void starterMap() {
+  public void starterMap() { //sets up the first maze
     for (int row = 0; row < map.length; row++) {
       for (int col = 0; col < map.length; col++) {
         map[row][col] = "-";
@@ -77,7 +77,7 @@ public class Maze{
     }
   }
   
-  public void primeMap() {
+  public void primeMap() { //sets up the prime maze for level 2
     for (int row = 0; row < map.length; row++) {
       for (int col = 0; col < map.length; col++) {
         map[row][col] = "-";
@@ -91,7 +91,7 @@ public class Maze{
     map[7][7] = "0";
   }
   
-  public void notPrimeMap() {
+  public void notPrimeMap() { //sets up the non-prime maze for level 2
     for (int row = 0; row < map.length; row++) {
       for (int col = 0; col < map.length; col++) {
         map[row][col] = "-";
@@ -105,7 +105,7 @@ public class Maze{
     map[6][7] = "0";
   }
   
-  public void printMap() {
+  public void printMap() { //prints the maze
     System.out.println("0 0 0 0 0 0 0 0 0 0 0 0");
     for (int row = 0; row < map.length; row++) {
       System.out.print("0 ");
@@ -122,7 +122,7 @@ public class Maze{
     System.out.println("0 0 0 0 0 0 0 0 0 0 0 0");
   }
   
-  public boolean isPrime (int check){
+  public boolean isPrime (int check){ //returns whether the number is prime
     if(check < 2)
       return false;
     for (int i = 2; i < check; i++) {
@@ -132,12 +132,14 @@ public class Maze{
     return true;
   }
   
-  public void move(String action) {
+  public void move(String action) { //interprets player input 
     count++;
-    if (action.equals("bobby"))
+    if (action.equals("bobby") || action.equals("kiang"))
       level = 3;
-    else if (action.equals("restart"))
+    else if (action.equals("restart")) {
+      setMap();
       count = 1;
+    }
     else if (action.equals("w"))
       moveUp();
     else if (action.equals("a"))
@@ -152,7 +154,7 @@ public class Maze{
     printMap();
   }
   
-  private void moveUp() {
+  private void moveUp() { //player moves up
     while(playerRow - 1 >= 0) {
       if (playerRow == goalRow && playerCol == goalCol){
         nextLevel();
@@ -165,7 +167,7 @@ public class Maze{
     }
   }
   
-  private void moveDown() {
+  private void moveDown() { //player moves down
     while(playerRow + 1 < map.length) {
       if (playerRow == goalRow && playerCol == goalCol){
         nextLevel();
@@ -178,7 +180,7 @@ public class Maze{
     }
   }
   
-  private void moveLeft() {
+  private void moveLeft() { //player moves left
     while(playerCol - 1 >= 0) {
       if (playerRow == goalRow && playerCol == goalCol) {
         nextLevel();
@@ -191,7 +193,7 @@ public class Maze{
     }
   }
   
-  private void moveRight() {
+  private void moveRight() { //player moves right
     while(playerCol + 1 < map.length) {
       if (playerRow == goalRow && playerCol == goalCol) {
         nextLevel();
@@ -204,9 +206,9 @@ public class Maze{
     }
   }
   
-  private void nextLevel() {
+  private void nextLevel() { //sets up the next level
     Hangman hangman = new Hangman();
-    hangman.start();
+    hangman.start(); //starts the Hangman game
     level++;
     count = 1;
     setMap();
